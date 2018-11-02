@@ -17,26 +17,22 @@ cd oar-local
 
 docker-compose up --build
 ```
-## Stand up OAR local environment
-```
-docker-compose up
-```
-## OAR-UI home's
+## OAR-UI
 ```
 http://localhost/startpage
 
 http://localhost/oarhome
 
 ```
-## KeyCloak home
+## KeyCloak
 ```
 http://localhost:8081
 ```
-## PGAdmin4 home
+## PGAdmin4
 ```
 http://localhost:8082
 ```
-## PostGREST home
+## PostGREST
 ```
 http://localhost:3000
 ```
