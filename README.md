@@ -35,6 +35,16 @@ http://localhost:8081
       KEYCLOAK USER: admin
       KEYCLOAK PASSWORD: password123!
 ```
+## Flyway Postgres
+```
+See the [Hub's oar-flyway-postgres/README.md](oar-flyway-postgres/README.md) for instruction of how to insert into Postgres via Flyway
+
+      PGADMIN USER: oar@homeoffice.gov.uk
+      PGADMIN PASSWORD: password
+
+      POSTGRES USER: postgres
+      POSTGRES PASSWORD: password
+```
 
 ## PGAdmin4 home
 ```
