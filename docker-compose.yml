@@ -3,25 +3,25 @@ networks:
  oar:
 
 services:
-  oar-ui:
-    build: ../oar-ui
-    image: quay.io/ukhomeofficedigital/oar-ui:latest
-    ports:
-      - "80:8080"
-    networks:
-      - "oar"
-  keycloak:
-    build: oar-keycloak
-    image: quay.io/ukhomeofficedigital/oar-keycloak:latest
-    ports:
-      - "8081:8080"
-    restart: always
-    environment:
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: password123!
-      UI_URL: http://localhost:8081/
-    networks:
-      - "oar"
+#  oar-ui:
+#    build: ../oar-ui
+#    image: quay.io/ukhomeofficedigital/oar-ui:latest
+#    ports:
+#      - "80:8080"
+#    networks:
+#      - "oar"
+#  keycloak:
+#    build: oar-keycloak
+#    image: quay.io/ukhomeofficedigital/oar-keycloak:latest
+#    ports:
+#      - "8081:8080"
+#    restart: always
+#    environment:
+#      KEYCLOAK_USER: admin
+#      KEYCLOAK_PASSWORD: password123!
+#      UI_URL: http://localhost:8081/
+#    networks:
+#      - "oar"
   postgres-db:
     image: postgres:latest
     ports:
@@ -60,10 +60,15 @@ services:
       - "PGADMIN_DEFAULT_PASSWORD=password"
     networks:
       - "oar"
-  flyway-migrator:
-    image: gsengun/flyway-postgres
+  flyway-cli:
+    build: ./oar-flyway-cli
+    image: quay.io/ukhomeofficedigital/oar-flyway-cli
+  flyway-postgres:
+    build: ./oar-flyway-postgres
+    image: quay.io/ukhomeofficedigital/oar-flyway-postgres
     volumes:
-      - flyway-data:/flyway/sql
+      - ./migrations:/flyway/sql
+      #- flyway-data:/flyway/sql
       #- ./sql:/flyway/sql
     depends_on:
       - postgres-db
