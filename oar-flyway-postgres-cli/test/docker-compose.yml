@@ -15,6 +15,18 @@ services:
       POSTGRES_DB: postgres      
     networks:
       - "oar-test"
+  pg-admin:
+    image: dpage/pgadmin4
+    ports:
+      - "8082:80"
+    restart: always
+    environment:
+      - "PGADMIN_DEFAULT_EMAIL=oar@homeoffice.gov.uk"
+      - "PGADMIN_DEFAULT_PASSWORD=password"
+    depends_on:
+      - postgres-db
+    networks:
+      - "oar-test"
   flyway-migrator:
     build: ../../oar-flyway-postgres-cli
     image: quay.io/ukhomeofficedigital/oar-flyway-postgres-cli
