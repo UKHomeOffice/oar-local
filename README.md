@@ -44,7 +44,17 @@ See the [Hub's oar-flyway-postgres/README.md](oar-flyway-postgres/README.md) for
 
       POSTGRES USER: postgres
       POSTGRES PASSWORD: password
+
 ```
+
+List available databases
+docker exec -it $(docker container ls -qf name=oar-local_postgres-db_1) psql -U postgres -c '\l'
+
+Create Database
+docker exec -it $(docker container ls -qf name=oar-local_postgres-db_1) psql -U postgres -c 'CREATE DATABASE heroes OWNER postgres'
+
+Obtain IP of postgres container
+docker container inspect -f "{{ .NetworkSettings.Networks.oar-flyway-postgres_oar.IPAddress}}" oar-local_postgres-db_1
 
 ## PGAdmin4 home
 ```
