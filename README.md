@@ -7,10 +7,10 @@ Create a working folder
 cd <working folder>
 
 Clone oar-ui repo
-git@github.com:UKHomeOffice/oar-ui.git
+git clone git@github.com:UKHomeOffice/oar-ui.git
 
 Clone oar-local repo
-git@github.com:UKHomeOffice/oar-local.git
+git clone git@github.com:UKHomeOffice/oar-local.git
 ```
 
 ## Build Docker images and instantiate a local environment 
