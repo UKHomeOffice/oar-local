@@ -75,11 +75,11 @@ services:
       - pg-admin
     networks:
       - "oar"
-  flyway-postgres-cli:
-    build: ./oar-flyway-postgres-cli
-    image: quay.io/ukhomeofficedigital/oar-flyway-postgres-cli
+  flyway-migrator:
+    build: ./oar-flyway-migrator
+    image: quay.io/ukhomeofficedigital/oar-flyway-migrator
     volumes:
-      - ./oar-flyway-postgres-cli/sql:/flyway/sql
+      - ./oar-flyway-migrator/sql:/flyway/sql
     depends_on:
       - flyway-cli
     command: postgres-db 5432 postgres password postgres oardb

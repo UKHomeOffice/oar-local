@@ -2,7 +2,6 @@ version: '2'
 networks:
  oar-test:
 
-
 services:
   postgres-db:
     build: ../../oar-flyway-cli
@@ -28,13 +27,12 @@ services:
     networks:
       - "oar-test"
   flyway-migrator:
-    build: ../../oar-flyway-postgres-cli
-    image: quay.io/ukhomeofficedigital/oar-flyway-postgres-cli
+    build: ../../oar-flyway-migrator
+    image: quay.io/ukhomeofficedigital/oar-flyway-migrator
     volumes:
       - ./sql:/flyway/sql
     depends_on:
       - postgres-db
     command: postgres-db 5432 postgres password postgres oardb
-    #command: postgres-db 5432 postgres secret postgres
     networks:
       - "oar-test"
