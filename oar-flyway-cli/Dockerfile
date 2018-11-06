@@ -8,10 +8,11 @@ RUN ls -la /flyway
 RUN ls -la /flyway/flyway
 RUN stat /flyway
 
-# A simple testing
-RUN ./flyway/flyway
-#RUN ./flyway/flyway 2>&1 | grep "Flyway 5.2.1"
-
 WORKDIR /flyway
+
+# A simple testing
+RUN ./flyway -v
+#RUN ./flyway 2>&1 | grep "Flyway 5.2.1"
+
 ENTRYPOINT ["flyway"]
 CMD ["--help"]

@@ -1,1 +1,0 @@
-ALTER TABLE user_data.user ADD CONSTRAINT uk_user_email UNIQUE (email);
