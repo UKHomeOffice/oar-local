@@ -23,7 +23,7 @@ services:
 #    networks:
 #      - "oar"
   postgres-db:
-    image: postgres:latest
+    image: postgres:10.5
     ports:
       - "5432:5432"
     restart: always
@@ -36,20 +36,22 @@ services:
       #- "./data:/var/lib/postgresql/data"
     networks:
       - "oar"
-  postgrest:
-    build: oar-postgrest
-    image: quay.io/ukhomeofficedigital/oar-postgrest:latest
-    ports:
-      - "3000:3000"
-    links:
-      - postgres-db:postgres      
-    restart: always
-    environment:
-      PGRST_DB_URI: postgres://postgres:password@postgres:5432/postgres
-      PGRST_DB_SCHEMA: public
-      PGRST_DB_ANON_ROLE: postgres
-    networks:
-      - "oar"
+ # postgrest:
+ #   build: oar-postgrest
+ #   image: quay.io/ukhomeofficedigital/oar-postgrest:latest
+ #   ports:
+ #     - "3000:3000"
+ #   links:
+ #     - postgres-db:postgres      
+ #   restart: always
+ #   environment:
+ #     PGRST_DB_URI: postgres://postgres:password@postgres:5432/postgres
+ #     PGRST_DB_SCHEMA: public
+ #     PGRST_DB_ANON_ROLE: postgres
+ #   depends_on:
+ #     - postgres-db
+ #   networks:
+ #     - "oar"
   pg-admin:
     image: dpage/pgadmin4
     ports:
@@ -58,25 +60,25 @@ services:
     environment:
       - "PGADMIN_DEFAULT_EMAIL=oar@homeoffice.gov.uk"
       - "PGADMIN_DEFAULT_PASSWORD=password"
+    depends_on:
+      - postgres-db
     networks:
       - "oar"
   flyway-cli:
     build: ./oar-flyway-cli
     image: quay.io/ukhomeofficedigital/oar-flyway-cli
-  flyway-postgres:
-    build: ./oar-flyway-postgres
-    image: quay.io/ukhomeofficedigital/oar-flyway-postgres
+    networks:
+      - "oar"
+  flyway-postgres-cli:
+    build: ./oar-flyway-postgres-cli
+    image: quay.io/ukhomeofficedigital/oar-flyway-postgres-cli
     volumes:
-      - ./migrations:/flyway/sql
-      #- flyway-data:/flyway/sql
-      #- ./sql:/flyway/sql
+      - ./oar-flyway-postgres-cli/sql:/flyway/sql
     depends_on:
       - postgres-db
     command: postgres-db 5432 postgres password postgres oardb
-    #command: postgres-db 5432 postgres secret postgres public
     networks:
       - "oar"
 volumes:
   postgres-data: {}      
-  flyway-data: {}      
   
