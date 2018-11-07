@@ -20,10 +20,12 @@ services:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: password123!
       UI_URL: http://localhost:8081/
+    depends_on:
+      - oar-ui
     networks:
       - "oar"
   postgres-db:
-    image: postgres:latest
+    image: postgres:10.5
     ports:
       - "5432:5432"
     restart: always
@@ -34,6 +36,8 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
       #- "./data:/var/lib/postgresql/data"
+    depends_on:
+      - keycloak
     networks:
       - "oar"
   postgrest:
@@ -48,6 +52,8 @@ services:
       PGRST_DB_URI: postgres://postgres:password@postgres:5432/postgres
       PGRST_DB_SCHEMA: public
       PGRST_DB_ANON_ROLE: postgres
+    depends_on:
+      - postgres-db
     networks:
       - "oar"
   pg-admin:
@@ -58,20 +64,27 @@ services:
     environment:
       - "PGADMIN_DEFAULT_EMAIL=oar@homeoffice.gov.uk"
       - "PGADMIN_DEFAULT_PASSWORD=password"
+    depends_on:
+      - postgres-db
+    networks:
+      - "oar"
+  flyway-cli:
+    build: ./oar-flyway-cli
+    image: quay.io/ukhomeofficedigital/oar-flyway-cli
+    depends_on:
+      - pg-admin
     networks:
       - "oar"
   flyway-migrator:
-    image: gsengun/flyway-postgres
+    build: ./oar-flyway-migrator
+    image: quay.io/ukhomeofficedigital/oar-flyway-migrator
     volumes:
-      - flyway-data:/flyway/sql
-      #- ./sql:/flyway/sql
+      - ./oar-flyway-migrator/sql:/flyway/sql
     depends_on:
-      - postgres-db
+      - flyway-cli
     command: postgres-db 5432 postgres password postgres oardb
-    #command: postgres-db 5432 postgres secret postgres public
     networks:
       - "oar"
 volumes:
   postgres-data: {}      
-  flyway-data: {}      
   
