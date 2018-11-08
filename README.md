@@ -78,7 +78,22 @@ http://localhost:8082
 
       PGADMIN USER: oar@homeoffice.gov.uk
       PGADMIN PASSWORD: password
+```
 
+### Get postgres hostname required when creating servers etc via PG4Admin
+```
+docker ps
+
+CONTAINER ID        IMAGE                                              PORTS                           NAMES
+fe5341904923        quay.io/ukhomeofficedigital/oar-postgrest:latest   0.0.0.0:3000->3000/tcp          oar-local_postgrest_1
+35be2d40172c        dpage/pgadmin4                                     443/tcp, 0.0.0.0:8082->80/tcp   oar-local_pg-admin_1
+26e25aa4f977        postgres:10.5                                      0.0.0.0:5432->5432/tcp          oar-local_postgres-db_1
+8ea99bfbe8d9        quay.io/ukhomeofficedigital/oar-keycloak:latest    0.0.0.0:8081->8080/tcp          oar-local_keycloak_1
+bcbcaa64c62a        quay.io/ukhomeofficedigital/oar-ui:latest          0.0.0.0:80->8080/tcp            oar-local_oar-ui_1
+```
+### Use the following parameters to create servers, tables etc in potgres via PG4Admin4
+```
+      POSTGRES HOSTNAME: oar-local_postgres-db_1
       POSTGRES USER: postgres
       POSTGRES PASSWORD: password
 ```
