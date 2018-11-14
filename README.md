@@ -58,6 +58,14 @@ See the [Hub's oar-flyway-postgres/README.md]
 ```
 docker exec -it $(docker container ls -qf name=oar-local_postgres-db_1) psql -U postgres -c '\l'
 ```
+### Flyway - Create extensions
+docker exec -it $(docker container ls -qf name=oar-local_postgres-db_1) psql -U postgres -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp"'
+
+```
+### Flyway - List available functions
+```
+docker exec -it $(docker container ls -qf name=oar-local_postgres-db_1) psql -U postgres -c '\df'
+```
 
 ### Flyway - Create Database
 ```

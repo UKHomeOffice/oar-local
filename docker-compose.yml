@@ -25,7 +25,9 @@ services:
     networks:
       - "oar"
   postgres-db:
-    image: postgres:10.5
+    #image: postgres:10.5
+    build: oar-postgres-uuid
+    image: quay.io/ukhomeofficedigital/oar-postgres-uuid:latest
     ports:
       - "5432:5432"
     restart: always
